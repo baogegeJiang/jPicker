@@ -3,4 +3,4 @@ a program to detect earthquakes and pick their phases' arrival time  built in ma
 
 author： Yiran Jiang、 Jieyuan Ning
 
-we would soon upload our program. 
+we would upload our program soon. 
