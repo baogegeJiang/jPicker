@@ -1,0 +1,11 @@
+SVM tool
+author JIANG Yiran
+it contains training and simulation based on support vector machine
+and can construct feature vectors used in our method
+calW5 for training
+preT for simulation
+kernel is designed for kernel tick
+conX for the first machine
+conXD for the second machine
+conXDF for the second machine (P and K together)
+
