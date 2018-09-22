@@ -120,7 +120,7 @@ for i=1:length(waveform)
         tmp(isnan(tmp)==1)=0;
         addMat(1:end-winLen+1)=addMat(1:end-winLen+1)+tmp;
         %     addMat(tmp>minCC)=addMat(tmp>minCC)+1;
-        [proL,clock0]=processDis(sprintf('add corr: %3d',i),j/length(staL)-0.01,'|',100,'*',datestr(dayNum,31),proL,clock0);
+        [proL,clock0]=processDis(sprintf('add corr: %3d',i),1-j/length(staL)-0.01,'|',100,'*',datestr(dayNum,31),proL,clock0);
     end
     addMat=addMat/length(staL);
     
