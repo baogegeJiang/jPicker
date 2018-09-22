@@ -2,6 +2,11 @@ function [PS,rms] = jLoc(quake,staLst,r)
 
 pTime=quake.pTime;
 sTime=quake.sTime;
+[m,n]=size(pTime);
+if n>m;
+  pTime=pTime';
+  sTime=sTime';
+end
 L=find(pTime~=0);
 pTime=pTime(L);
 sTime=sTime(L);

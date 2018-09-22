@@ -1,5 +1,5 @@
 setMFT
-load tmpWaveformV1
+load waveformTmp20180917
 
 %for i=1:length(tmpWaveform)
 %    for j=1:length(tmpWaveform(i).pTime)
@@ -12,6 +12,7 @@ load tmpWaveformV1
 %     end
 %end
 for dayNum=sDayMFT:eDayMFT
+    if dayNum<datenum(2014,10,11);continue;end
     tmp= dayMFT(dayNum,tmpWaveform);
     waveformDet(dayNum-sDayMFT+1).isF=0;
     if length(tmp)~=0;
