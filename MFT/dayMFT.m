@@ -85,29 +85,41 @@ for i=1:length(waveform)
                 index=floor((waveform(i).pTime(staL(j))-waveform(i).oTime)*86400/delta);
                 dTime(j)=(waveform(i).pTime(staL(j))-oTime);
                 tmpWave=waveform(i).sta(staL(j)).waveform(index+L,3);
-                tmpCC=jmxcorrn( tmpWave,sta(staL(j)).data(:,3))';
+                try
+                  tmpCC=jmxcorrn( tmpWave,sta(staL(j)).data(:,3))';
+                catch
+                  fprintf('cuda xcorr fail');
+                end
                 ccLen=length(tmpCC);
                 if ccLen==0;continue;end
-                bTime=sta(i).bNum-dTime(j);
+                bTime=sta(staL(j)).bNum-dTime(j);
                 bIndex=floor((bTime-dayNum)*86400/delta);
                 staMat(max(1,bIndex):(ccLen+bIndex-1),j)=tmpCC(max(1,-bIndex+2):end);
             else
                 index=floor((waveform(i).sTime(staL(j))-waveform(i).oTime)*86400/delta);
                 dTime(j)=(waveform(i).sTime(staL(j))-oTime);
                 tmpWave=waveform(i).sta(staL(j)).waveform(index+L,1);
+                try
                 tmpCC1=jmxcorrn( tmpWave,sta(staL(j)).data(:,1))';
+                catch
+                  fprintf('cuda xcorr fail');
+                end
                 tmpWave=waveform(i).sta(staL(j)).waveform(index+L,2);
+                try
                 tmpCC2=jmxcorrn( tmpWave,sta(staL(j)).data(:,2))';
+                catch
+                  fprintf('cuda xcorr fail');
+                end
                 tmpCC=max(tmpCC1,tmpCC2);
                 ccLen=length(tmpCC);
                 if ccLen==0;continue;end
-                bTime=sta(i).bNum-dTime(j);
+                bTime=sta(staL(j)).bNum-dTime(j);
                 bIndex=   floor((bTime-dayNum)*86400/delta);
                 staMat(max(1,bIndex):(ccLen+bIndex-1),j)=tmpCC(max(1,-bIndex+2):end);
             end
-            [proL,clock0]=processDis(sprintf('cal corr: %3d',i),j/length(staL),'|',100,'*',datestr(dayNum,31),proL,clock0);
+            [proL,clock0]=processDis(sprintf('cal corr: %3d',i),1-(j-1)/length(staL),'|',100,'*',datestr(dayNum,31),proL,clock0);
         catch
-            % fprintf('failed cal corr %d %d');
+             fprintf('failed cal corr %d %d',i ,j);
         end
     end
     
@@ -120,7 +132,7 @@ for i=1:length(waveform)
         tmp(isnan(tmp)==1)=0;
         addMat(1:end-winLen+1)=addMat(1:end-winLen+1)+tmp;
         %     addMat(tmp>minCC)=addMat(tmp>minCC)+1;
-        [proL,clock0]=processDis(sprintf('add corr: %3d',i),1-j/length(staL)-0.01,'|',100,'*',datestr(dayNum,31),proL,clock0);
+        [proL,clock0]=processDis(sprintf('add corr: %3d',i),j/length(staL)-0.01,'|',100,'*',datestr(dayNum,31),proL,clock0);
     end
     addMat=addMat/length(staL);
     
@@ -128,6 +140,7 @@ for i=1:length(waveform)
     [detCC,detL]=getdetec(addMat,minCC,minD);
     [~,clock0]=processDis(sprintf('add corr: %3d find %2d',i,length(detCC)),j/length(staL),'|',100,'*',datestr(dayNum,31),proL,clock0);
     if isempty(detL);continue;end
+    if detL(1)==-1;continue;end
     
     %% get the arrival time on each station and the orign time
     for j=1:length(detL)
@@ -160,12 +173,12 @@ for i=1:length(waveform)
             else
                 waveformDet(count).sTime(staL(k),1)=dayNum+index*delta/86400+dTime(k)+(-L(1)+4)*delta/86400;
                 waveformDet(count).sCC(staL(k),1)=tmpCC;
-                waveformDet(count).pD(staL(k),1)=(maxIndex-1)*delta/86400;
+                waveformDet(count).sD(staL(k),1)=(maxIndex-1)*delta/86400;
             end
         end
         waveformDet(count).PS(1)=dayNum+detL(j)*delta/86400+(-L(1)+4)*delta/86400+mean(dIndex)*delta/86400;
         waveformDet(count).pD(waveformDet(count).pTime~=0)= waveformDet(count).pD(waveformDet(count).pTime~=0)-mean(dIndex)*delta/86400;
-        waveformDet(count).sD(waveformDet(count).sTime~=0)= waveformDet(count).pD(waveformDet(count).sTime~=0)-mean(dIndex)*delta/86400;
+        waveformDet(count).sD(waveformDet(count).sTime~=0)= waveformDet(count).sD(waveformDet(count).sTime~=0)-mean(dIndex)*delta/86400;
         waveformDet(count).oTime= waveformDet(count).PS(1)-100/86400;
         waveformDet(count).eTime= waveformDet(count).PS(1)+150/86400;
         %         oTime= waveformDet(count).PS(1)-100/86400;
