@@ -1,7 +1,9 @@
 delta=0.01;
-fl=0.5;fh=20;
+fl=0.5;fh=15;
 setMFT;
+f=[fl,fh];
 for i=1:length(tmpWaveform)
+i
     for j=1:length(tmpWaveform(i).pTime)
        if tmpWaveform(i).pTime(j)==0;continue;end
           for k=1:3

@@ -8,6 +8,6 @@ if m0>m;m=m0;b=b';end
 
 if m>l;a0=b;l0=m;b=a;m=l;a=a0;l=l0;end
 
-c=mxcorrCuda(a,b,l,m)';
+c=mxcorrCudaf(a,b,l,m)';
 
 return

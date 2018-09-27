@@ -34,7 +34,11 @@ __global__ void corr( float * a,float* b,  int la,int lb,float tb0,double* c) {
             ta+=a[i+j]*a[i+j];
             tc+=a[i+j]*b[j];
         }
+        
         *(c+i)=(double) tc/(sqrtf(ta)*tb0);
+        if(ta==0){
+           *(c+i)=0;
+        }
         i+=blockDim.x*gridDim.x;
     }
 }

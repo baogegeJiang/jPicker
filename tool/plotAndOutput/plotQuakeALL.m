@@ -10,7 +10,7 @@ for dayIndex=1:length(day)
     quake=day(dayIndex).quake;
     tmpDay=dayIndex+sDay-1;
     tmpDay0=tmpDay-refDay+1;
-    filename=sprintf('%ssta_%dV3.mat',matDir,tmpDay);
+    filename=sprintf('%ssta_%dV3_100.mat',matDir,tmpDay);
 if exist(filename,'file')
 %    load(filename);
 else

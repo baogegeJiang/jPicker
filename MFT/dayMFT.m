@@ -1,23 +1,24 @@
-function [ waveformDet]= dayMFT(dayNum,waveform)
+%function [ waveformDet]= dayMFT(dayNum,waveform)
 mode='butter1';
 minSta=5;
 setPara;
 setPath;
 loadFile;
 delta=0.01;
-L=[-2:delta:2]/delta;
+dayLength=87000/delta;
+L=[-2:delta:4]/delta;
 winLen=floor(0.2/delta);
 minCC=0.2;
 minD=20/delta;
 sDay0=dayNum;
-maxN=20;
+maxN=25;
 
 
 
 %% get  stations' waveform
 filename=sprintf('%ssta_%dV3_100.mat',matDir,sDay0);
 if exist(filename,'file')
-    load(filename);
+%    load(filename);
 else
     for i=1:length(staLst)
         sta(i).isF=0;sta(i).data=zeros(0,0,'single');sta(i).bSec=0;sta(i).delta=delta;sta(i).bNum=0;
@@ -27,13 +28,14 @@ else
 end
 
 perCount=0;proL=0;clock0=clock();
-for i=1:length(staLst)
+%f=[fl,fh];
+for i=1:0%length(staLst)
     if exist(filename,'file')==0
         [sacEFile,sacNFile,sacZFile]=sacFileName(staLst(i).net,staLst(i).station,staLst(i).comp,sDay0);
         sta(i).isF=0;
         [sta(i).data,sta(i).bSec,sta(i).delta,~,sta(i).bNum,~,sta(i).isF]=mergeSac2data(sacEFile,sacNFile,sacZFile);
     end
-    [proL,clock0]=processDis('filt staWave',i/length(staLst),'|',100,'*',datestr(dayNum,31),proL,clock0);
+    [proL,clock0]=processDis('filt staWave',i/length(staLst),'|',50,'*',datestr(dayNum,31),proL,clock0);
     if length(sta(i).data)<=20000;sta(i).isF=0;end
     if sta(i).isF==0;continue;end
     if 1%doFilt>0
@@ -44,7 +46,7 @@ for i=1:length(staLst)
     sta(i).name=staLst(i).name;sta(i).la=staLst(i).la;sta(i).lo=staLst(i).lo;
     perCount=perCount+1;
 end
-if perCount<3;waveformDet=[];return;end
+%if perCount<3;waveformDet=[];return;end
 
 count=0;
 
@@ -73,7 +75,7 @@ for i=1:length(waveform)
     if length(staL)<minSta
         continue;
     end
-    staMat=zeros(87000/delta,length(staL));
+    staMat=zeros(dayLength,length(staL));
     proL=0;
     
     
@@ -117,7 +119,7 @@ for i=1:length(waveform)
                 bIndex=   floor((bTime-dayNum)*86400/delta);
                 staMat(max(1,bIndex):(ccLen+bIndex-1),j)=tmpCC(max(1,-bIndex+2):end);
             end
-            [proL,clock0]=processDis(sprintf('cal corr: %3d',i),1-(j-1)/length(staL),'|',100,'*',datestr(dayNum,31),proL,clock0);
+            [proL,clock0]=processDis(sprintf('cal corr: %3d',i),1-(j-1)/length(staL),'|',50,'*',datestr(dayNum,31),proL,clock0);
         catch
              fprintf('failed cal corr %d %d',i ,j);
         end
@@ -125,20 +127,27 @@ for i=1:length(waveform)
     
     %% stack the correlation
     addMat=zeros(87000/delta,1);
-    proL=0;
+    proL=0;minCount=0;
     for j=1:length(staL)
         
         tmp=cmax(staMat(:,j),87000/delta,winLen);
         tmp(isnan(tmp)==1)=0;
+        if mean(tmp)<0.04;minCount=minCount+1;continue;end
         addMat(1:end-winLen+1)=addMat(1:end-winLen+1)+tmp;
         %     addMat(tmp>minCC)=addMat(tmp>minCC)+1;
-        [proL,clock0]=processDis(sprintf('add corr: %3d',i),j/length(staL)-0.01,'|',100,'*',datestr(dayNum,31),proL,clock0);
+        [proL,clock0]=processDis(sprintf('add corr: %3d',i),j/length(staL)-0.01,'|',50,'*',datestr(dayNum,31),proL,clock0);
     end
-    addMat=addMat/length(staL);
+    addMat=addMat/max(1,length(staL)-minCount);
     
     %% detect microearthquake according to the stacked results
+    for mul=1:6
+        minCC0=mean(addMat)+mul*std(addMat);
+        [detCC,detL]=getdetec(addMat,minCC0,minD);
+        detCount(mul)=length(find(detL~=-1));
+    end
+    minCC=mean(addMat)+5.5*std(addMat);
     [detCC,detL]=getdetec(addMat,minCC,minD);
-    [~,clock0]=processDis(sprintf('add corr: %3d find %2d',i,length(detCC)),j/length(staL),'|',100,'*',datestr(dayNum,31),proL,clock0);
+    [~,clock0]=processDis(sprintf('add corr: %3d find %2d mean:%.3f std:%.3f minCount: %d staL:%d %s',i,length(detCC),mean(addMat),std(addMat),minCount,length(staL),num2str(detCount)),j/length(staL),'|',10,'*',datestr(dayNum,31),proL,clock0);
     if isempty(detL);continue;end
     if detL(1)==-1;continue;end
     
@@ -162,7 +171,7 @@ for i=1:length(waveform)
         pCount=0;dIndex=[];
         for k=1:length(staL)
             pCount=pCount+1;
-            tmp=staMat(max(1,min(end,(detL(j)+[1:winLen]-1))),k); %#ok<*NBRAK>
+            tmp=staMat(max(1,min(dayLength,(detL(j)+[1:winLen]-1))),k); %#ok<*NBRAK>
             [tmpCC,maxIndex]=max(tmp);
             dIndex(pCount)=maxIndex-1;
             index=maxIndex-1+detL(j);
@@ -199,4 +208,4 @@ for i=1:length(waveform)
     
 end
 
-end
+%end
