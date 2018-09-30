@@ -6,7 +6,7 @@ setPath;
 loadFile;
 delta=0.01;
 dayLength=87000/delta;
-L=[-2:delta:4]/delta;
+L=[-2:delta:3]/delta;
 winLen=floor(0.2/delta);
 minCC=0.2;
 minD=20/delta;

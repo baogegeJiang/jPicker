@@ -11,5 +11,5 @@ i
           end
     end
 end
-file=sprintf('MFT/tmpWave_%.1f_%d.mat',fl,fh);
-save(file,'tmpWaveform');
+file=sprintf('MFT/tmpWave_%.1f_%d_all.mat',fl,fh);
+save(file,'tmpWaveform','-v7.3');
