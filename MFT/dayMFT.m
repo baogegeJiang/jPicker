@@ -75,7 +75,7 @@ for i=1:length(waveform)
     if length(staL)<minSta
         continue;
     end
-    staMat=zeros(dayLength,length(staL));
+    staMat=zeros(dayLength,length(staL),'single');
     proL=0;
     
     
@@ -88,7 +88,7 @@ for i=1:length(waveform)
                 dTime(j)=(waveform(i).pTime(staL(j))-oTime);
                 tmpWave=waveform(i).sta(staL(j)).waveform(index+L,3);
                 try
-                  tmpCC=jmxcorrn( tmpWave,sta(staL(j)).data(:,3))';
+                  tmpCC=jmxcorrnCudaff( tmpWave,sta(staL(j)).data(:,3));
                 catch
                   fprintf('cuda xcorr fail');
                 end
@@ -102,13 +102,13 @@ for i=1:length(waveform)
                 dTime(j)=(waveform(i).sTime(staL(j))-oTime);
                 tmpWave=waveform(i).sta(staL(j)).waveform(index+L,1);
                 try
-                tmpCC1=jmxcorrn( tmpWave,sta(staL(j)).data(:,1))';
+                tmpCC1=jmxcorrnCudaff( tmpWave,sta(staL(j)).data(:,1));
                 catch
                   fprintf('cuda xcorr fail');
                 end
                 tmpWave=waveform(i).sta(staL(j)).waveform(index+L,2);
                 try
-                tmpCC2=jmxcorrn( tmpWave,sta(staL(j)).data(:,2))';
+                tmpCC2=jmxcorrnCudaff( tmpWave,sta(staL(j)).data(:,2));
                 catch
                   fprintf('cuda xcorr fail');
                 end
@@ -126,11 +126,11 @@ for i=1:length(waveform)
     end
     
     %% stack the correlation
-    addMat=zeros(87000/delta,1);
+    addMat=zeros(87000/delta,1,'single');
     proL=0;minCount=0;
     for j=1:length(staL)
         
-        tmp=cmax(staMat(:,j),87000/delta,winLen);
+        tmp=cmaxf(staMat(:,j),87000/delta,winLen);
         tmp(isnan(tmp)==1)=0;
         if mean(tmp)<0.04;minCount=minCount+1;continue;end
         addMat(1:end-winLen+1)=addMat(1:end-winLen+1)+tmp;
