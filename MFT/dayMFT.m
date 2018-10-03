@@ -6,12 +6,12 @@ setPath;
 loadFile;
 delta=0.01;
 dayLength=87000/delta;
-L=[-2:delta:3]/delta;
+L=[-2:delta:4]/delta;
 winLen=floor(0.2/delta);
 minCC=0.2;
 minD=20/delta;
 sDay0=dayNum;
-maxN=25;
+maxN=20;
 
 
 
@@ -49,11 +49,15 @@ end
 %if perCount<3;waveformDet=[];return;end
 
 count=0;
+staMat=zeros(dayLength,maxN*2,'single');
+addMat=zeros(87000/delta,1,'single');
 
 for i=1:length(waveform)
+    tmpSTime=clock;
     %% get the vail stations and their phases
     oTime=waveform(i).PS(1);
     for j=1:length(staLst)
+            waveform(i).sTime(j)=sign(waveform(i).pTime(j))*waveform(i).sTime(j);
         if sta(j).isF==0||waveform(i).sta(j).isF==0
             waveform(i).pTime(j)=0;
             waveform(i).sTime(j)=0;
@@ -75,9 +79,10 @@ for i=1:length(waveform)
     if length(staL)<minSta
         continue;
     end
-    staMat=zeros(dayLength,length(staL),'single');
+    staMat=staMat*0;
     proL=0;
     
+     st=clock;
     
     %% cal cross correlation
     for j=length(staL):-1:1
@@ -88,7 +93,7 @@ for i=1:length(waveform)
                 dTime(j)=(waveform(i).pTime(staL(j))-oTime);
                 tmpWave=waveform(i).sta(staL(j)).waveform(index+L,3);
                 try
-                  tmpCC=jmxcorrnCudaff( tmpWave,sta(staL(j)).data(:,3));
+                  tmpCC=jmxcorrnCudaff( sta(staL(j)).data(:,3),tmpWave);
                 catch
                   fprintf('cuda xcorr fail');
                 end
@@ -102,13 +107,13 @@ for i=1:length(waveform)
                 dTime(j)=(waveform(i).sTime(staL(j))-oTime);
                 tmpWave=waveform(i).sta(staL(j)).waveform(index+L,1);
                 try
-                tmpCC1=jmxcorrnCudaff( tmpWave,sta(staL(j)).data(:,1));
+                tmpCC1=jmxcorrnCudaff(sta(staL(j)).data(:,1),tmpWave);
                 catch
                   fprintf('cuda xcorr fail');
                 end
                 tmpWave=waveform(i).sta(staL(j)).waveform(index+L,2);
                 try
-                tmpCC2=jmxcorrnCudaff( tmpWave,sta(staL(j)).data(:,2));
+                tmpCC2=jmxcorrnCudaff( sta(staL(j)).data(:,2),tmpWave);
                 catch
                   fprintf('cuda xcorr fail');
                 end
@@ -119,35 +124,42 @@ for i=1:length(waveform)
                 bIndex=   floor((bTime-dayNum)*86400/delta);
                 staMat(max(1,bIndex):(ccLen+bIndex-1),j)=tmpCC(max(1,-bIndex+2):end);
             end
-            [proL,clock0]=processDis(sprintf('cal corr: %3d',i),1-(j-1)/length(staL),'|',50,'*',datestr(dayNum,31),proL,clock0);
+            et=clock;
+            dt=etime(et,st);
+            perdt=dt/sum(typeL(j:end));
+            [proL,clock0]=processDis(sprintf('cal corr: %3d | %.4f s perSta |',i,perdt),1-(j-1)/length(staL),'|',50,'*',datestr(dayNum,31),proL,clock0);
         catch
              fprintf('failed cal corr %d %d',i ,j);
         end
     end
     
     %% stack the correlation
-    addMat=zeros(87000/delta,1,'single');
+    addMat=addMat*0;
     proL=0;minCount=0;
     for j=1:length(staL)
         
-        tmp=cmaxf(staMat(:,j),87000/delta,winLen);
+        tmp=cmaxCuda(staMat(:,j),87000/delta,winLen);
         tmp(isnan(tmp)==1)=0;
         if mean(tmp)<0.04;minCount=minCount+1;continue;end
         addMat(1:end-winLen+1)=addMat(1:end-winLen+1)+tmp;
         %     addMat(tmp>minCC)=addMat(tmp>minCC)+1;
         [proL,clock0]=processDis(sprintf('add corr: %3d',i),j/length(staL)-0.01,'|',50,'*',datestr(dayNum,31),proL,clock0);
     end
+    if length(staL)-minCount<minSta;continue;end
     addMat=addMat/max(1,length(staL)-minCount);
-    
+    addStd=std(addMat);
+    addMean=mean(addMat); 
     %% detect microearthquake according to the stacked results
     for mul=1:6
-        minCC0=mean(addMat)+mul*std(addMat);
+        minCC0=addMean+mul*addStd;
         [detCC,detL]=getdetec(addMat,minCC0,minD);
         detCount(mul)=length(find(detL~=-1));
     end
-    minCC=mean(addMat)+5.5*std(addMat);
+    minCC=addMean+5.5*addStd;
+    minCC=min(0.3,max(0.25,minCC));
     [detCC,detL]=getdetec(addMat,minCC,minD);
-    [~,clock0]=processDis(sprintf('add corr: %3d find %2d mean:%.3f std:%.3f minCount: %d staL:%d %s',i,length(detCC),mean(addMat),std(addMat),minCount,length(staL),num2str(detCount)),j/length(staL),'|',10,'*',datestr(dayNum,31),proL,clock0);
+    tmpDTime=etime(clock,tmpSTime);
+    [~,clock0]=processDis(sprintf('add corr: %3d use: %.1fs find %2d mean:%.3f std:%.3f minCount: %d staL:%d %s',i,tmpDTime,length(find(detCC~=-1)),mean(addMat),std(addMat),minCount,length(staL),num2str(detCount)),j/length(staL),'|',10,'*',datestr(dayNum,31),proL,clock0);
     if isempty(detL);continue;end
     if detL(1)==-1;continue;end
     
@@ -157,6 +169,9 @@ for i=1:length(waveform)
         waveformDet(count).tmpIndex=i;
         waveformDet(count).name=datestr(waveform(i).PS(1),31);
         waveformDet(count).CC=detCC(j);
+        waveformDet(count).mean=addMean;
+        waveformDet(count).std=addStd;
+        waveformDet(count).mul=(detCC(j)-addMean)/addStd;
         waveformDet(count).pCC=zeros(length(staLst),1);
         waveformDet(count).sCC=zeros(length(staLst),1);
         waveformDet(count).PS=zeros(5,1);
@@ -207,5 +222,42 @@ for i=1:length(waveform)
     
     
 end
+return
+[loc,res]=locQuake(waveformDet,2);
+for i=1:length(res)
+    waveformDet(i).PS(1:4)=loc(:,i);
+end
+[timeL,indexL]=sort(loc(1,:));
+L=[];mul=0;oTime=0;
+for i=1:length(indexL)
+    index=indexL(i);
+    if timeL(i)==0;continue;end
+    if timeL(i)-oTime>20/86400;
+       L(end+1)=index;
+       mul=waveformDet(index).mul;
+       oTime=timeL(i);continue;end
+    if waveformDet(index).mul>mul;
+       L(end)=index;
+       mul=waveformDet(index).mul;
+       oTime=timeL(i);continue;end
+end
+for i=L
+     ml=0;mCount=0;
+      for j=1:length(waveformDet(i).pTime)
+
+        if sta(j).isF==0;continue;end  
+        if waveformDet(i).pTime(j)==0;continue;end  
+         pIndex=ceil((waveformDet(i).pTime(j)-sta(j).bNum)*86400/delta+1);
+         sIndex=max(ceil((waveformDet(i).sTime(j)-sta(j).bNum)*86400/delta+1),pIndex+250);
+         dk=distaz(sta(j).la,sta(j).lo,loc(2,i),loc(3,i));
+         dk=max(10,dk); 
+         if sIndex-50>0 && sIndex+300<length(sta(j).data);sA=getSA(sta(j).data(sIndex+[-50:300],:))*delta;else sA=0;end
+         if sA~=0 && dk >10 && dk <550;mCount=mCount+1;ml=ml+max(-1,log10(sA)+1.1*log10(dk)+0.00189*dk-2.09-0.23);end 
+       end
+       tmpIndex=waveformDet(i).tmpIndex;
+       waveformDet(i).PS(5)=double(ml/max(1,mCount))-waveform(tmpIndex).dml;
+end
+
+
 
 %end
