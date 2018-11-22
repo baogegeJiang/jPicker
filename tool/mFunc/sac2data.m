@@ -28,16 +28,21 @@ e=min([eE,eN,eZ]);eSec=e*delta;
 %delta
 L=b:e;
 data=[sacE.DATA1(L-bE+1),sacN.DATA1(L-bN+1),sacZ.DATA1(L-bZ+1)];
+try
 if max(f1/f0,f0/f1)>1.1
-%data=resample(data,f1,f0);
-%delta=delta1;
-%eSec=bSec+(length(data)-1)*delta;
+
+data=resample(data,f1,f0);
+delta=delta1;
+eSec=bSec+(length(data)-1)*delta;
 end
-if length(data)>2000;
-L=1+floor(rand(10000,1)*(length(data)-100));
-mL=mean(abs(data(L,:)),1);
-%if max(mL)>8*min(mL);
-%data=[];
+catch
+data=[];
+end
+%if length(data)>2000;
+%   L=1+floor(rand(10000,1)*(length(data)-100));
+%   mL=mean(abs(data(L,:)),1);
+%   if max(mL)>8*min(mL);
+%     data=[];
+%   end
 %end
-end
 %fprintf('sac2data used time:  %f s\n',etime(clock,bTime));

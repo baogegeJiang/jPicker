@@ -1,5 +1,5 @@
 % we provide the paralle way; paraNum is the number of threads. if it's setted to 1, we will not do paralle calculation
-paraNum=15;
+paraNum=5;
 % when mexSLR ==1, we will calculate SLR in 'C'; when mexSLR==0, we will not;
 mexSLR=1;
 minSLR=4;
@@ -7,11 +7,11 @@ minSLR=4;
 %1508282016033123
 %1503270015082820/
 %1410090015032623
-refDay=datenum(2013,1,1);sDay=datenum(2014,10,09);eDay=datenum(2015,03,26);
+refDay=datenum(2013,1,1);sDay=datenum(2014,10,09);eDay=datenum(2015,10,09);
 % we can generate some simulate quakes to help us locate quakes. set the center point and max distance away from the center point***
-lo0=107;la0=39.2;r=2;
+lo0=100;la0=40.5;r=3;
 % if you need do filting on your data, set doFilt = 1 and set other filt parameters to suitable values else set do filt=0;
-doFilt=0;
+doFilt=1;
 f=[2,20]; nodelay=1; mode='butter1';delta1=0.02;order=4;
 % doLoc=1: locate quakes and using these results to improve the accuracy; doLoc=0: not locate
 doLoc=1;
@@ -32,6 +32,7 @@ globalSta=1;
 % the parameters using in stacking Sec and finding orign time. using the default setting is enough
 dd1=0.1;dd2=0.01;dd3=0.01;
 %% we divide the area into many subareas 
-R=[36,42,103,111];nR=10;mR=10;
+%R=[minLatitude maxLa minLontitude maxLatitude] 
+R=[37.5,43,95,104.5];nR=10;mR=10;
 dTimeE=2;
 isJLoc=1;

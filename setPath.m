@@ -1,6 +1,6 @@
-workDir='/home/jiangyr/jPickerHima/';
+workDir='/home/jiangyr/jPickerHima2/';
 dataDir='/';
-matDir='/media/geodyn/nmSacMat1/NMMAT/';
+matDir='/media/geodyn/NMDATA/matDir/';
 velDir0=[workDir,'tool/VELSVM/'];
 
 

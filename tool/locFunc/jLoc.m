@@ -2,11 +2,6 @@ function [PS,rms] = jLoc(quake,staLst,r)
 
 pTime=quake.pTime;
 sTime=quake.sTime;
-[m,n]=size(pTime);
-if n>m;
-  pTime=pTime';
-  sTime=sTime';
-end
 L=find(pTime~=0);
 pTime=pTime(L);
 sTime=sTime(L);
@@ -45,7 +40,9 @@ end
 phaseL=[pL*0+1;sL*0+2];
 PS=zeros(4,1);rms=inf;lambda=10;
 
-if length(phaseL)<4;%fprintf('not enough data\n');
+if length(phaseL)<4;
+%fprintf('not enough data\n');
+
 return;end
 
 
@@ -207,6 +204,10 @@ if rms>20
         PS=zeros(4,1);rms=inf;
      end
 %    fprintf('no  Convergence\n');
+end
+
+if length(find(abs(dTime)<6))<4
+        PS=zeros(4,1);rms=inf;
 end
 
 return

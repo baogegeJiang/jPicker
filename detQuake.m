@@ -17,12 +17,12 @@ timeLst=timeLstG;
 warning off all
 minDT=1/86400;minDT0=1/86400;
 delta=0.02;
-secC=zeros(24*3700,length(sta),nR,mR,'uint8');
-secCMin=zeros(24*3700,length(sta),nR,mR,'uint16');
-secCMax=zeros(24*3700,length(sta),nR,mR,'uint16');
+secC=zeros(25*3700,length(sta),nR,mR,'uint8');
+secCMin=zeros(25*3700,length(sta),nR,mR,'uint16');
+secCMax=zeros(25*3700,length(sta),nR,mR,'uint16');
 minDet=2.9;minD=30;minIsP=0;
 
-dLa=(R(2)-R(1))/nR;dLo=(R(4)-R(3))/mR;La=R(1):dLa:R(2);Lo=R(3):dLa:R(4);
+dLa=(R(2)-R(1))/nR;dLo=(R(4)-R(3))/mR;La=R(1):dLa:R(2);Lo=R(3):dLo:R(4);
 
 %% find every stations' possible phase pairs and  stack them.
 for i =1:length(sta)

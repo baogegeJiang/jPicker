@@ -29,7 +29,7 @@ for i=1:length(day)
      phaseF{phaseCount,1}=sprintf('quake %d : %s la: %.3f  lo: %.3f  dep: %.3f ml: %.3f coverR: %.2f errLa: %.2f errLo: %.2f',qCount,timeStr,day(i).quake(j).PS(2:5),coverRate,errLa,errLo);
 %     quakeF{qCount,1}=sprintf('AI%s %s %s %s %s %s %s %.2f %.2f %.2f %.2f',timeStr(1:14),timeStr(1:4),timeStr(5:6),timeStr(7:8),...
 %timeStr(9:10),timeStr(11:12),timeStr(13:17),day(i).quake(j).PS(3),day(i).quake(j).PS(2),day(i).quake(j).PS(4:5));
-      quakeF{qCount,1}=sprintf('%s,%.2f,%.2f',timeStr,day(i).quake(j).PS(2),day(i).quake(j).PS(3));
+      quakeF{qCount,1}=sprintf('%s,%.2f,%.2f numP:%d',timeStr,day(i).quake(j).PS(2),day(i).quake(j).PS(3),sum(day(i).quake(j).pTime(102:end)>0));
 %timeStr(9:10),timeStr(11:12),timeStr(13:17),day(i).quake(j).PS(3),day(i).quake(j).PS(2),day(i).quake(j).PS(4:5));
      for k=1:length(day(i).quake(j).pTime)
         if day(i).quake(j).pTime(k)<100;continue;end

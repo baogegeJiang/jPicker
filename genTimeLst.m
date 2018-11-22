@@ -4,7 +4,7 @@ if n<1||m<1;return;end
 dLa=(R(2)-R(1))/n;
 dLo=(R(4)-R(3))/m;
 La=R(1):dLa:R(2);
-Lo=R(3):dLa:R(4);
+Lo=R(3):dLo:R(4);
 deltaDeg=0.01;
 for i=1:length(staLst)
     for j=1:n

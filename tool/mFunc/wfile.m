@@ -15,5 +15,5 @@ for i=1:l
     end
 end
         
-%fclose(fp);
+fclose(fp);
 

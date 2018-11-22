@@ -5,7 +5,7 @@
 %dayPhase0=readPhaseLst([workDir,'/someFile/phaseLst0'],datenum(2008,07,1));
 dayPhase0=readPhaseLst([workDir,'/someFile/phase0.csv'],datenum(2008,07,1));
 %dayPhase0=readPhaseLst('/home/jiangyr/jSvm/phase0.csv',datenum(2008,7,1));
-dayPhase=readPhaseLst([workDir,'/output/phaseLstALL'],datenum(2008,07,1));
+%dayPhase=readPhaseLst([workDir,'/output/phaseLstALL'],datenum(2008,07,1));
 loadSta;
 clear phaseCmp cmp
 phaseCount0=0;phaseCount=0;
@@ -15,11 +15,12 @@ phaseCmpP=[];
 phaseCmpS=[];
 clear phaseCmp;
 for i=1:length(dayPhase)
-%    phaseCount=0;phaseCount0=0;
+    phaseCount=0;phaseCount0=0;
     for j=1:length(staLst)
         for k=Lk
             if dayPhase0(i).sta(j,k).timeCount==0;continue;end
                for l=1:dayPhase0(i).sta(j,k).timeCount 
+%                   if dayPhase0(i).sta(j,k).time(l)<datenum(2008,7,1,8);continue;end
                    phaseCount0=phaseCount0+1;
                    phaseCmp(phaseCount0,1)=noTimeV;;
                    phaseCmp(phaseCount0,2)=j;

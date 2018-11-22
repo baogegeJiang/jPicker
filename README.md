@@ -2,14 +2,20 @@ jPickerV2
 author: JIANG Yiran  Email:2320140745@qq.com
 a program to automaticlly detect earthquakes and determine the arrival times of its P S phases it mainly based on supoort vector machine and can be applied on array data.
 
-our method are designed for 50HZ sac files. You may have to convert the format and resample to this type or we would do resample automatically in our program. the whole program is mainly designed to process the full-day record but we also provide a function to picking phase on a short record for specific events. 
+our method are designed for 50HZ sac files. You may have to convert the format to sac and resample to 50 Hz or we would do resample automatically in our program. the whole program is mainly designed to process the full-day record and we also provide a function to picking phase on a short record for specific events. 
 
 install step:
 
-  1 compile files
-    cd tool/SLR;mex SLRC.cpp; : we provide a way to calculate SLR(Allen, 1978) in 'C' using mex in MATLAB. it doesn't matter if you don't want to mex this file, as we provide an alternative option to do this without mexing which only costs a little longer time than the 'C' one.
+  1 compile files(optional)
+   if not, set mexSLR=0 && isJLoc=1 in setPara.m
 
-  fortCompiler -O3 velest.f : cd tool/VELSVM/ and compile the main file. We recommend you using ifort compiler which can optimize the speed of locating process obviously
+    cd tool/SLR;mex SLRC.cpp; 
+        we provide a way to calculate SLR(Allen, 1978) in 'C' using mex in MATLAB. it doesn't matter if you don't want to mex this file, as we provide an alternative option to do this without mexing which only costs a little longer time than the 'C' one.
+        
+
+   in the new version we develop a faster way to locate single earthquake faster in matlab,
+   so if set isJLoc=1, no need to compile velest program 
+
 
  2 set paths, parameters and other things
    edit setPath.m : 
@@ -30,10 +36,6 @@ install step:
 
  3 initialize the program:
    initPicker : We have write a script to initialize the environment according to your setting
-   genQuake0Sim : the function will generate some simulate quakes in tool/locFunc/quake0Sim.mat to help us locate quakes
-                  if you have already found some good quakes, you can overwrite the mat file. the number of quakes should be about 200.
-   genNewModelasp : to generate a mat file saving the veloctity model used in mattaup
-                    you can chang the velocity structure in tool/mattaup/iasp91.tvel
    loadFile: load some file that we will use in the process
 
  4 run

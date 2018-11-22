@@ -7,8 +7,7 @@ quake0=[];tmpCount=[];
 for tmpDay=day
     for tmpQuake=tmpDay.quake
         if sum(sign(tmpQuake.pTime))>minSta
-            cR=calCover(tmpQuake,staLst);
-           quake0=[quake0 tmpQuake];tmpCount=[sum(sign(tmpQuake.pTime))*cR+1000*sign(tmpQuake.PS(1)) tmpCount];
+           quake0=[quake0 tmpQuake];tmpCount=[sum(sign(tmpQuake.pTime))+1000*sign(tmpQuake.PS(1)) tmpCount];
         end
     end
 end

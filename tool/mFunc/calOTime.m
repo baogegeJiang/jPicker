@@ -1,6 +1,21 @@
 function [oTime]=calOTime(pTime,sTime)
         dTime=sTime-pTime;
 	%if abs(sTime-pTime)<0.001;b=(-0.9636)/86400;else;b=-0.9636;end
+        global oTimeMatG
+        if length(oTimeMatG)~=0
+           if abs(dTime)<0.001;
+              % 1
+              oTime=pTime-interp1(oTimeMatG(:,1),oTimeMatG(:,2),dTime*86400)/86400;
+           else
+              oTime=pTime-interp1(oTimeMatG(:,1),oTimeMatG(:,2),dTime);
+           end
+           if isnan(oTime)==0
+%              fprintf('*** in oTimeMat ***');
+              return
+           else
+              1;%fprintf('not in oTimeMat');
+           end
+        end
         k=1.726;k1=-0.5756;k2=-0.1245;
         if abs(dTime)<0.001;
 	oTime=pTime-...

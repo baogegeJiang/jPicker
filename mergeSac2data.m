@@ -10,6 +10,7 @@ bNum=+inf;
 eSec=-inf;
 eNum=-inf;
 if strcmp(class(sacEFile),'cell')~=1;fprintf('no cell input');return;end
+sacNum=min(length(sacEFile),min(length(sacNFile),length(sacZFile)));
 for i=1:length(sacEFile)
      sac(i).isF=1;
      sacE=readsac([sacDir,sacEFile{i}]);

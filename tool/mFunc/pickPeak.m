@@ -3,10 +3,10 @@ function[peak,xd,A,slrZ,pre]=pickPeak(data,modPhase,pre)
 A=0;
 
 sacPreCount=min(20000,ceil(size(data,1)/2));
-minD=50;minSLR=3;minSVMd=0;minSVMP1=0;minSVMP2=0;
+minD=30;minSLR=3;minSVMd=0;minSVMP1=0;minSVMP2=0;
 setPara;
-jL=-100:100;
-jL2=-500:2500;
+jL=-200:200;
+jL2=-1000:2500;
 svmL=[0];
 peakCount=0;
 peak=[];
