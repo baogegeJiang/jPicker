@@ -18,23 +18,22 @@ we give some optional way to process faster or more conveniently which need prog
 ```matlab
 cd tool/SLR;mex SLRC.cpp; 
 ```
-we provide a way to calculate SLR(Allen, 1978) in 'C' using mex in MATLAB. it doesn't matter if you don't want to mex this file, as we provide an alternative option to do this without mexing which only costs a little longer time than the 'C' one.      
-
-in the new version we develop a faster way to locate single earthquake in matlab to take place of the original 'velest' part
+we provide a way to calculate SLR(Allen, 1978) in 'C' using mex in MATLAB. it doesn't matter if you don't want to mex this file, as we provide an alternative option to do this without mexing which only costs a little longer time than the 'C' one.        
+in the new version we develop a faster way to locate single earthquake in matlab to take place of the original 'velest' part  
 so if set isJLoc=1, no need to compile velest program 
 
 
 ### 1.2 set paths, parameters and other things
 
 #### 1.2.1 edit setPath.m :
-workDir: the main folder's path where you place jPicker
-dataDir: the path of the folder saving sac files
-matDir:  the path of the folder saving the waveform data in .mat 
+workDir: the main folder's path where you place jPicker  
+dataDir: the path of the folder saving sac files  
+matDir:  the path of the folder saving the waveform data in .mat   
 we provide an option to save the main waveform data in .mat form. You can review it by loading this files. it also contains some other informations. 
 #### 1.2.2 edit setPara.m :
 you can see the meaning of these detailed parameters in this file and adjust it according to your need.
 #### 1.2.3 edit staLst : 
-give the station list in this format: net station component(ex. BH HH) longitude(-: W) latitude(-: S)
+give the station list in this format: net station component(ex. BH HH) longitude(-: W) latitude(-: S)  
 the number of station should be less than 26^2;(recommend: 10~50) 
 
 #### 1.2.4 edit sacFileName.m  :
@@ -81,7 +80,7 @@ load the pre-calculated file which we will use in the process
 ```matlab
 day=dayPick(sDay0,machineIsPhase,machineIsP) 
 ```
-pick on one day's data. as we run loadFile before, the machineIsPhase and machineIsP is alread in the workPlace. you just specific the day sDay0 you want to scan, it will return a day structure witch contains the found quakes. you can use datenum(year,month,day) to obtain sDay0. turn to *data struct* to know the details about datenum.
+pick on one day's data. as we run loadFile before, the machineIsPhase and machineIsP is alread in the workPlace. you just specific the day sDay0 you want to scan, it will return a day structure witch contains the found quakes. you can use datenum(year,month,day) to obtain sDay0. turn to *data struct* to know the details about datenum.  
 pickAIV2 : if you want to do pick-up on all the days, just run it. it will call dayPick to pick on each day. 
 
 ---
@@ -106,16 +105,16 @@ E/N:+, W/S:-
 km
 
 ### 3.5 day: 
-{n*quake}. a day struct will contain many quakes in quake struct. 
+{n*quake}. a day struct will contain many quakes in quake struct.   
 
-## 4 pick on a single station:
+## 4 pick on a single station:  
 
 ```matlab
 [pIndex,sIndex]=pPickerSingle(pIndex0,sIndex0,data,toDoLst,machineIsPhase,machineIsP)
 ```
-this function proviede a way to do phasePicking on a single station. 
-the waveform data is a N*3 mat which contains three components(E/N/Z). 
-**pIndex0/sIndex0** is the phase's estimated arrival time's index. if you cannot give a accurate pIndex0 or sIndex0, just set them all 0 then the function would pick on the whole data and pick the first phase as P.
-**toDoLst** is a parameter array to determine the way to pick: [svmPickP aicPickP svmPickS]. when one element is set to 1/0, the function will do or not do the corresponding picking. the default setting is [1 1 1]
-**machineIsPhase/machineIsP**: the already trained machines used in picking. they are stored in the tool/SVM/machineIsPhase.mat and tool/SVM/machineIsP.mat
-the function will return the index of P/S phase's arrival time. if the indexes equal to **0**, it means **no** phase of such type found.
+this function proviede a way to do phasePicking on a single station.   
+the waveform data is a N*3 mat which contains three components(E/N/Z).   
+**pIndex0/sIndex0** is the phase's estimated arrival time's index. if you cannot give a accurate pIndex0 or sIndex0, just set them all 0 then the function would pick on the whole data and pick the first phase as P.  
+**toDoLst** is a parameter array to determine the way to pick: [svmPickP aicPickP svmPickS]. when one element is set to 1/0, the function will do or not do the corresponding picking. the default setting is [1 1 1]  
+**machineIsPhase/machineIsP**: the already trained machines used in picking. they are stored in the tool/SVM/machineIsPhase.mat and tool/SVM/machineIsP.mat  
+the function will return the index of P/S phase's arrival time. if the indexes equal to **0**, it means **no** phase of such type found.  
