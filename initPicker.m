@@ -11,6 +11,7 @@ load machineIsP
 %machineIsP.a=single(machineIsP.a);
 %machineIsP.b=single(machineIsP.b);
 %machineIsP.x=single(machineIsP.x);
+if isJLoc==0
 velDir=[workDir,'tool/tmpVEL/'];
 if exist(velDir,'file');
    rmpath(genpath(velDir));
@@ -26,6 +27,7 @@ for i=1:paraNum
 %    cd(velDirTmp);
 %    unix(sprintf(' bash %s/matrun.bash ./velest3',velDirTmp));
 %    cd(workDir);
+end
 end
 setPath
 loadFile;
