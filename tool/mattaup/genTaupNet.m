@@ -6,9 +6,9 @@ for i=1:2000
     for j=1:100 
         dep=j;
         temp=tauptimeJ('mod','iasp91','dep',dep,'deg',deg,'ph','p,P,Pn');
-        taupMatP(i,j)=temp.time;
+        taupMatP(i,j)=temp(1).time;
         temp=tauptimeJ('mod','iasp91','dep',dep,'deg',deg,'ph','s,S,Sn');
-         taupMatS(i,j)=temp.time;
+         taupMatS(i,j)=temp(1).time;
       end
 end
 save tool/mattaup/taupMatP taupMatP
