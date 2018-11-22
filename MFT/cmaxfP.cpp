@@ -40,9 +40,9 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[])
     float tmin;
     plhs[0]=mxCreateNumericMatrix(la-lb+1,1, mxSINGLE_CLASS, mxREAL);
     c= (float *)mxGetPr(plhs[0]);
-    int threadN=20;
+    int threadN=10;
     int loopN=(la-lb+1)/threadN+1;
-   // omp_set_num_threads(threadN+1);
+   omp_set_num_threads(threadN+1);
     #pragma omp parallel
    for(int i=0;i<threadN;i++){
       cmax(a,la,lb,c,loopN,i);
