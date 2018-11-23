@@ -33,8 +33,8 @@ we provide an option to save the main waveform data in .mat form. You can review
 #### 1.2.2 edit setPara.m :
 you can see the meaning of these detailed parameters in this file and adjust it according to your need.
 #### 1.2.3 edit staLst : 
-give the station list in this format: net station component(ex. BH HH) longitude(-: W) latitude(-: S)  
-the number of station should be less than 26^2;(recommend: 10~50) 
+give the station list in this format: **net station component(ex. BH HH) longitude(-: W) latitude(-: S)**  
+the number of station should be less than 26^2;(recommend: 10~50)   
 
 #### 1.2.4 edit sacFileName.m  :
 input the (net station comp dayNum), output the relative paths of three component sac files(to contain waveform for a full day numbered dayNum; see *data struct* for more information about daynum) in dataDir in cell format
@@ -48,15 +48,12 @@ sacN={'ABC.20150101.00.BHN.SAC','ABC.20150101.08.BHN.SAC','ABC.20150101.16.BHN.S
 sacZ={'ABC.20150101.00.BHZ.SAC','ABC.20150101.08.BHZ.SAC','ABC.20150101.16.BHZ.SAC'}
 ```
 you should adjust the function according to your situation.when our program get the several file paths, we would automatically merge them together
-
 #### 1.2.5 edit setPicker.m :
 set some parameters using in SVM's picker. you can see details in it
 ### 1.3 initialize the program:
-run the following script to initialize the picker
-
+run the following script to initialize the picker  
 #### 1.3.1 initPicker : 
-We have write a script to initialize the environment according to your setting
-
+We have write a script to initialize the environment according to your setting  
 #### 1.3.2 genNewModelasp: 
 to initialize taup acorrding to the velocity structure in :
 ```matlab
@@ -65,27 +62,22 @@ aspModelFile=[workDir,'/tool/mattaup/iasp91.tvel'];
 and the result will be saved in
 ```matlab
 modelLocalMat=[workDir,'/tool/mattaup/modelLocalasp.mat'];
-```
-
+```  
 #### 1.3.3 genTaupNet: 
-to pre-calcultate 1-D travel time according to aspModelFile and save the result to accelerate travel time calculation. (0.005° 1km)'s result would help us to interp travel time. it would cost a little longer time. if you don't change the velocity structure in aspModelFile, you need not to run this every time
-
+to pre-calcultate 1-D travel time according to aspModelFile and save the result to accelerate travel time calculation. (0.005° 1km)'s result would help us to interp travel time. it would cost a little longer time. if you don't change the velocity structure in aspModelFile, you need not to run this every time  
 #### 1.3.4 genTimeLstMat:
 we would divide the area into some subareas and we need to calculate the travel time range (P/S) for quakes in each subareas to each station. this script would do this and save the result in mat format
 #### 1.3.5 loadFile: 
-load the pre-calculated files which we will use in the process
-
+load the pre-calculated files which we will use in the process  
 ---
 ## 2 run
 ```matlab
 day=dayPick(sDay0,machineIsPhase,machineIsP) 
 ```
 pick on one day's data. as we run loadFile before, the machineIsPhase and machineIsP is alread in the workPlace. you just specific the day sDay0 you want to scan, it will return a day structure witch contains the found quakes. you can use datenum(year,month,day) to obtain sDay0. turn to *data struct* to know the details about datenum.  
-**pickAIV2** : if you want to do pick-up on all the days, just run it. it will call dayPick to pick on each day. 
-
+**pickAIV2** : if you want to do pick-up on all the days, just run it. it will call dayPick to pick on each day.   
 ---
-## 3 data struct：
-
+## 3 data struct：  
 ### 3.1 time: 
 we use datenum to mark the time. it's a matlab function witch can convert time into a number. this number indicates how many day it is from 0000-00-00-0000. So, 1 secand will be convert into 1/86400 day.
 
