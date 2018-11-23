@@ -1,17 +1,11 @@
 # jPickerV2
 
----
+author: ***JIANG Yiran && Jerry Ning***   
+Email: *2320140745@qq.com*  
 
-author: ***JIANG Yiran && Jerry Ning***  
-Email: *2320140745@qq.com*
+*a program to automaticlly detect earthquakes and determine the arrival times of its P S phases. it mainly based on supoort vector machine and can be applied on array data.*  
 
----
-
-*a program to automaticlly detect earthquakes and determine the arrival times of its P S phases. it mainly based on supoort vector machine and can be applied on array data.*
-
-**Emphasize**: our method are designed for 50HZ sac files. You may have to convert the format to sac and resample to 50 Hz or we would do resample automatically in our program. the whole program is mainly designed to process the full-day record and we also provide a function to picking phase on a short record for specific events. 
-
----
+**Emphasize**: our method are designed for 50HZ sac files. You may have to convert the format to sac and resample to 50 Hz or we would do resample automatically in our program. the whole program is mainly designed to process the full-day record and we also provide a function to picking phase on a short record for specific events.   
 
 ## 1 install step:
 
@@ -71,9 +65,8 @@ modelLocalMat=[workDir,'/tool/mattaup/modelLocalasp.mat'];
 to pre-calcultate 1-D travel time according to aspModelFile and save the result to accelerate travel time calculation. (0.005° 1km)'s result would help us to interp travel time. it would cost a little longer time. if you don't change the velocity structure in aspModelFile, you need not to run this every time  
 #### 1.3.4 genTimeLstMat:
 we would divide the area into some subareas and we need to calculate the travel time range (P/S) for quakes in each subareas to each station. this script would do this and save the result in mat format
-#### 1.3.5 loadFile: 
+#### 1.3.5 loadFile:   
 load the pre-calculated files which we will use in the process  
----
 ## 2 run  
 ```matlab
 day=dayPick(sDay0,machineIsPhase,machineIsP) 
