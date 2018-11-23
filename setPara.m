@@ -39,9 +39,9 @@ globalSta=1;
 % the parameters using in stacking Sec and finding orign time. using the default setting is enough
 dd1=0.1;dd2=0.01;dd3=0.01;
 % we divide the area into many subareas 
-% R=[minLatitude maxLatitude minLontitude maxLontitude] define the whole area
+% R=[minLatitude maxLatitude minLongitude maxLongitude] define the whole area
 % nR: the subarea's latitude range= (maxLatitude-minLatitude)/(nR-1)
-% mR: the subarea's lontitude range= (maxLontitude-minLontitude)/(nR-1)
+% mR: the subarea's longitude range= (maxLongitude-minLongitude)/(nR-1)
 % the total number of subareas: nR*mR
 R=[37.5,43,95,104.5];nR=10;mR=10;
 % dTimeE for travel time calculate error (in associating different stations' results) 

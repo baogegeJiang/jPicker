@@ -28,9 +28,6 @@ else
 end
 
 for i=1:length(staLst)
-       %fprintf( '.');
-%      if i==16;continue;end
- %      if i<=28;continue;end
     if exist(filename,'file')==0
        [sacEFile,sacNFile,sacZFile]=sacFileName(staLst(i).net,staLst(i).station,staLst(i).comp,sDay0);
       % fprintf( ' %d',i);
@@ -58,7 +55,7 @@ end
 for i=1:length(sta)
    sta(i).slrDataZ=[];
 end
-%sta(16).isF=0;
+
 if globalSta==1
    quake=detQuake(1,machineIsPhase,machineIsP,reScan);
 else
