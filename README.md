@@ -1,14 +1,18 @@
 # jPickerV2
+
 ---
+
 author: ***JIANG Yiran && Jerry Ning***  
 Email: *2320140745@qq.com*
 
 ---
+
 *a program to automaticlly detect earthquakes and determine the arrival times of its P S phases. it mainly based on supoort vector machine and can be applied on array data.*
 
 **Emphasize**: our method are designed for 50HZ sac files. You may have to convert the format to sac and resample to 50 Hz or we would do resample automatically in our program. the whole program is mainly designed to process the full-day record and we also provide a function to picking phase on a short record for specific events. 
 
 ---
+
 ## 1 install step:
 
 ### 1.1 compile files(optional)
