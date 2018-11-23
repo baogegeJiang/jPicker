@@ -105,8 +105,12 @@ km
 [pIndex,sIndex]=pPickerSingle(pIndex0,sIndex0,data,toDoLst,machineIsPhase,machineIsP)
 ```
 this function proviede a way to do phasePicking on a single station.   
-the waveform data is a N*3 mat which contains three components(E/N/Z).   
+the waveform data is a N*3 mat which contains three components(E/N/Z).  
+
 **pIndex0/sIndex0 :** is the phase's estimated arrival time's index. if you cannot give a accurate pIndex0 or sIndex0, just set them all 0 then the function would pick on the whole data and pick the first phase as P.  
-**toDoLst :** is a parameter array to determine the way to pick: [svmPickP aicPickP svmPickS]. when one element is set to 1/0, the function will do or not do the corresponding picking. the default setting is [1 1 1]  
+
+**toDoLst :** is a parameter array to determine the way to pick: [svmPickP aicPickP svmPickS]. when one element is set to 1/0, the function will do or not do the corresponding picking. the default setting is [1 1 1]   
+
 **machineIsPhase/machineIsP :** the already trained machines used in picking. they are stored in the tool/SVM/machineIsPhase.mat and tool/SVM/machineIsP.mat  
+
 the function will return the index of P/S phase's arrival time. if the indexes equal to **0**, it means **no** phase of such type found.  
