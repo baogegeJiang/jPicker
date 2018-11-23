@@ -76,7 +76,9 @@ day=dayPick(sDay0,machineIsPhase,machineIsP)
 ```  
 pick on one day's data. as we run loadFile before, the machineIsPhase and machineIsP is alread in the workPlace. you just specific the day sDay0 you want to scan, it will return a day structure witch contains the found quakes. you can use datenum(year,month,day) to obtain sDay0. turn to *data struct* to know the details about datenum.  
 **pickAIV2** : if you want to do pick-up on all the days, just run it. it will call dayPick to pick on each day.   
+
 ---
+
 ## 3 data struct：  
 ### 3.1 time: 
 we use datenum to mark the time. it's a matlab function witch can convert time into a number. this number indicates how many day it is from 0000-00-00-0000. So, 1 secand will be convert into 1/86400 day.
