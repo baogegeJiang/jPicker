@@ -70,10 +70,10 @@ we would divide the area into some subareas and we need to calculate the travel 
 #### 1.3.5 loadFile: 
 load the pre-calculated files which we will use in the process  
 ---
-## 2 run
+## 2 run  
 ```matlab
 day=dayPick(sDay0,machineIsPhase,machineIsP) 
-```
+```  
 pick on one day's data. as we run loadFile before, the machineIsPhase and machineIsP is alread in the workPlace. you just specific the day sDay0 you want to scan, it will return a day structure witch contains the found quakes. you can use datenum(year,month,day) to obtain sDay0. turn to *data struct* to know the details about datenum.  
 **pickAIV2** : if you want to do pick-up on all the days, just run it. it will call dayPick to pick on each day.   
 ---
