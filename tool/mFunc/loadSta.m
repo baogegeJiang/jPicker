@@ -3,7 +3,7 @@ clear staLst
 staFile=[workDir,'staLst'];
 staF=readdata(staFile);
 ABC='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-for i=1:length(staF)
+for i=1:size(staF,1)
 %staLst(i).name=staF{i,1};
 staLst(i).lo=str2num(staF{i,4});
 staLst(i).la=str2num(staF{i,5});
