@@ -1,10 +1,12 @@
-taupMatP=zeros(2000,100);
-taupMatS=zeros(2000,100);
-for i=1:2000
+taupMatP=zeros(4000,200);
+taupMatS=zeros(4000,200);
+for i=1:4000
     deg=(i-1)*0.005;
     i
-    for j=1:100 
+    for j=1:200 
+        
         dep=j;
+        %[taupMatP(i,j),taupMatS(i,j)]=getTime(dep,deg);
         temp=tauptimeJ('mod','iasp91','dep',dep,'deg',deg,'ph','p,P,Pn');
         taupMatP(i,j)=temp(1).time;
         temp=tauptimeJ('mod','iasp91','dep',dep,'deg',deg,'ph','s,S,Sn');

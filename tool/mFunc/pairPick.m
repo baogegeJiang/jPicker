@@ -1,5 +1,5 @@
 function [oTimeLst]=pairPick(timeLst,xd,A,modP,data,bNum,delta)
-min_PS=1;max_PS=40;minIsP=0.3;
+min_PS=1;max_PS=80;minIsP=0.3;
 oTimeCount=0;
 bNumM=mod(bNum,1);
 oTimeLst=zeros(300*length(timeLst),5,'double');

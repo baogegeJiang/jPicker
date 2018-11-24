@@ -14,16 +14,22 @@ sDay=sDay0-yNum+1;
 dayS=sprintf('%03d',sDay);
 clear temp dir
 YM=YMD(1:6);
-sacDirL=length(sacDir);
-sacDirLst={'/media/geodyn/1410090015032623/','/media/geodyn/1508282016033123/','/media/geodyn/1503270015082820/'};
-for i=1:24
-    for j=1:3
-        hourSacDir=[sacDirLst{j},'/',YMD,'.',dayS,'.',sprintf('%02d',i-1),'0000.000/'];
-        temp=dir([hourSacDir,net,'.',station,'.',Y,dayS,'*.',comp,'E*']);
-        sacE{i+(j-1)*24}=[hourSacDir(sacDirL+1:end),temp.name];
-        temp=dir([hourSacDir,net,'.',station,'.',Y,dayS,'*.',comp,'N*']);
-        sacN{i+(j-1)*24}=[hourSacDir(sacDirL+1:end),temp.name];
-        temp=dir([hourSacDir,net,'.',station,'.',Y,dayS,'*.',comp,'Z*']);
-        sacZ{i+(j-1)*24}=[hourSacDir(sacDirL+1:end),temp.name];
-    end
+%2018.001.00.00.00.0000.JP.JCJ..BHE.M.SAC
+YMD=YMD(1:4);
+sacE=cell(0,0);
+%sprintf('%s/%s.%s.*.%s.%s.%sE.M.SAC',sacDir,YMD,dayS,net,station,comp)
+fileLst=dir(sprintf('%s/%s.%s.*.%s.%s..%sE.M.SAC',sacDir,YMD,dayS,net,station,comp));
+for i=1:length(fileLst)
+    sacE{i}=fileLst(i).name;
 end
+sacN=cell(0,0);
+fileLst=dir(sprintf('%s/%s.%s.*.%s.%s..%sN.M.SAC',sacDir,YMD,dayS,net,station,comp));
+for i=1:length(fileLst)
+    sacN{i}=fileLst(i).name;
+end
+sacZ=cell(0,0);
+fileLst=dir(sprintf('%s/%s.%s.*.%s.%s..%sZ.M.SAC',sacDir,YMD,dayS,net,station,comp));
+for i=1:length(fileLst)
+    sacZ{i}=fileLst(i).name;
+end
+

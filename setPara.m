@@ -1,16 +1,16 @@
 % we provide the paralle way; paraNum is the number of threads. if it's setted to 1, we will not do paralle calculation
-paraNum=5;
+paraNum=1;
 % when mexSLR ==1, we will calculate SLR in 'C'; when mexSLR==0, we will not;
-mexSLR=1;
-minSLR=4;
+mexSLR=0;
+minSLR=3.5;
 % set the scnday list. 
 % refDay: not important parameter; set any day ealier than sDay is ok;
 % sDay: the first day's number;
 % eDay: the last day's number
-refDay=datenum(2013,1,1);sDay=datenum(2014,10,09);eDay=datenum(2015,10,09);
+refDay=datenum(2018,1,1);sDay=datenum(2018,7,1);eDay=datenum(2018,7,1);
 % we can generate some simulate quakes to help us locate quakes. set the center point and max distance away from the center point***
 % in the new version, we develop a new we to locate. so it was no longer needed if you set isJLoc=1;
-lo0=100;la0=40.5;r=3;
+lo0=-147;la0=60;r=3;
 % if you need do filting on your data, set doFilt = 1 and set other filt parameters to suitable values else set do filt=0;
 % we only provide butterworth filter (set mod='butter1'); you can use filt(nodelay=0) or filtfilt(nodelay=0);
 % delta1 is the sample interval of sac (s). we would automatically resample it to 50 Hz. so don't change delta1.
@@ -43,7 +43,7 @@ dd1=0.1;dd2=0.01;dd3=0.01;
 % nR: the subarea's latitude range= (maxLatitude-minLatitude)/(nR-1)
 % mR: the subarea's longitude range= (maxLongitude-minLongitude)/(nR-1)
 % the total number of subareas: nR*mR
-R=[37.5,43,95,104.5];nR=10;mR=10;
+R=[55,65,-152,-138];nR=10;mR=10;
 % dTimeE for travel time calculate error (in associating different stations' results) 
 % if the travel time is longer or shorter than the estimated range within dTimeE, 
 % it also be taken into consideration

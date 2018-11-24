@@ -31,8 +31,8 @@ we provide an option to save the main waveform data in .mat form. You can review
 #### 1.2.2 edit setPara.m :
 you can see the meaning of these detailed parameters in this file and adjust it according to your need.
 #### 1.2.3 edit staLst : 
-give the station list in this format: **net station component(ex. BH HH) longitude(-: W) latitude(-: S)**  
-the number of station should be less than 26^2;(recommend: 10~50)   
+give the station list in this format: **net station component(ex. BH HH) longitude(-: W) latitude(-: S) sampleRate**  
+the number of station should be less than 52^2;(recommend: 10~100)   
 
 #### 1.2.4 edit sacFileName.m  :
 input the (net station comp dayNum), output the relative paths of three component sac files(to contain waveform for a full day numbered dayNum; see *data struct* for more information about daynum) in dataDir in cell format

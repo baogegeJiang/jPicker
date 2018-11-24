@@ -10,15 +10,16 @@ for dayIndex=1:length(day)
 quake=day(dayIndex).quake;
 tmpDay=dayIndex+sDay-1;
 tmpDay0=tmpDay-refDay+1;
-filename=sprintf('%ssta_%dV3.mat',matDir,tmpDay0);
+filename=sprintf('%ssta_%dV3.mat',matDir,tmpDay);
 if exist(filename,'file')
 load(filename);
 else
 continue;
 end
 for i=1:length(quake)
+   
     if sum(sign(quake(i).pTime))<5;continue;end
-    for j=1:length(quake(i).pTime);
+    for j=1:length(quake(i).pTime)
         clf
         figure(1); hold on
         if quake(i).pTime(j)==0;continue;end

@@ -2,7 +2,8 @@ setPath;
 clear staLst
 staFile=[workDir,'staLst'];
 staF=readdata(staFile);
-ABC='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+ABC='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopgrstuvwxyz';
+lABC=length(ABC);
 for i=1:size(staF,1)
 %staLst(i).name=staF{i,1};
 staLst(i).lo=str2num(staF{i,4});
@@ -12,7 +13,7 @@ staLst(i).net=staF{i,1};
 staLst(i).station=staF{i,2};
 staLst(i).comp=staF{i,3};
 staLst(i).name=[staLst(i).station];
-m=mod(i,24);n=(i-m)/24+1;
+m=mod(i,lABC);n=(i-m)/lABC+1;
 staLst(i).nick=[ABC(n),ABC(m+1),ABC(n),ABC(m+1)];
 end
 

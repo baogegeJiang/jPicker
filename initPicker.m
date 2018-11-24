@@ -3,7 +3,8 @@ setPath;
 addpath(genpath(workDir));
 loadSta;
 staVel;
-load  machineIsPhaseHimaV3
+%load  machineIsPhaseHimaV3
+load machineIsPhaseSCV5
 load machineIsP
 %machineIsPhase.x=single(machineIsPhase.x);
 %machineIsPhase.a=single(machineIsPhase.a);

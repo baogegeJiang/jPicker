@@ -1,7 +1,7 @@
 function[quake]=detQuakeV6(sta,modPhase,modP,doAgain)
 %% the main function to detect earthquakes and determine their arrival time
 
-dd1=0.2;dd2=0.05;dd3=0.05;
+dd1=0.1;dd2=0.05;dd3=0.05;
 dd1=0.1;
 maxRes=1.5;dTimeE=2;
 setPara;
@@ -47,7 +47,7 @@ for i =1:length(sta)
 end
 fprintf('\n');
 secCS=sum(secC,2);
-secCSMax=[max(max(secCS,[],3),[],4)];;
+secCSMax=[max(max(secCS,[],3),[],4)];
 [quakeN,quakeTime]=getdetec(secCSMax,minDet,minD);
 fprintf('time detect find  %d\n',length(quakeTime));
 if quakeTime(1)<=0;quake=[];return;end
