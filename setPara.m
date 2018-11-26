@@ -2,7 +2,7 @@
 paraNum=1;
 % when mexSLR ==1, we will calculate SLR in 'C'; when mexSLR==0, we will not;
 mexSLR=0;
-minSLR=3.5;
+minSLR=3;
 % set the scnday list. 
 % refDay: not important parameter; set any day ealier than sDay is ok;
 % sDay: the first day's number;
@@ -43,7 +43,7 @@ dd1=0.1;dd2=0.01;dd3=0.01;
 % nR: the subarea's latitude range= (maxLatitude-minLatitude)/(nR-1)
 % mR: the subarea's longitude range= (maxLongitude-minLongitude)/(nR-1)
 % the total number of subareas: nR*mR
-R=[55,65,-152,-138];nR=10;mR=10;
+R=[55,65,-152,-138];nR=15;mR=15;
 % dTimeE for travel time calculate error (in associating different stations' results) 
 % if the travel time is longer or shorter than the estimated range within dTimeE, 
 % it also be taken into consideration

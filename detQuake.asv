@@ -28,7 +28,7 @@ dLa=(R(2)-R(1))/nR;dLo=(R(4)-R(3))/mR;La=R(1):dLa:R(2);Lo=R(3):dLo:R(4);
 for i =1:length(sta)
     if sta(i).isF==0;continue;end
     fprintf('%d ',i);
-    sta(i).pair=pairPick(sta(i).peak,sta(i).xd,sta(i).A,modP,sta(i).data,sta(i).bNum,delta,sta(i).pre);
+    sta(i).pair=pairPick(sta(i).peak,sta(i).xd,sta(i).A,modP,sta(i).data,sta(i).bNum,delta);
     for j=1:size(sta(i).pair,1)
         secT=floor(sta(i).pair(j,1));
         for k=floor(secT+(-1)*dd1*min(max(10,abs(sta(i).pair(j,3)-sta(i).pair(j,2))),30)):floor(secT+1*dd1*min(max(10,abs(sta(i).pair(j,3)-sta(i).pair(j,2))),30))
@@ -359,7 +359,7 @@ for i=1:length(quake)
         if sA~=0 && dk >10 && dk <550;mCount=mCount+1;ml=ml+max(-1,log10(sA)+1.1*log10(dk)+0.00189*dk-2.09-0.23);end
         %psL=max(1,pIndex-250):min(length(sta(j).data),1.5*sIndex-0.5*pIndex);
         %sta(j).data(psL,:)=sta(j).data(psL,:).*0;
-        psL=max(1,pIndex-500):min(length(sta(j).pre),max(sIndex+750,1.5*sIndex-0.5*pIndex));
+        psL=max(1,pIndex-250):min(length(sta(j).pre),max(1.5*sIndex-0.5*pIndex);
         try
           sta(j).pre(psL)=sta(j).pre(psL)*0-10;
         end

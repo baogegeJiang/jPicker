@@ -6,7 +6,7 @@ Email: *2320140745@qq.com*
 *a program to automaticlly detect earthquakes and determine the arrival times of its P S phases. it mainly based on supoort vector machine and can be applied on array data.*  
 
 **Emphasize**: our method are designed for 50HZ sac files. You may have to convert the format to sac and resample to 50 Hz or we would do resample automatically in our program. the whole program is mainly designed to process the full-day record and we also provide a function to picking phase on a short record for specific events.   
-<img src="https://github.com/baogegeJiang/jPicker/blob/master/output/figure/737242quake2_DAWY.jpg"  height="330" width="495">
+<img src="https://github.com/baogegeJiang/jPicker/blob/master/output/figure/737242quake2_F1TN.jpg"  height="330" width="495">
 
 ## 1 install step:
 
@@ -25,9 +25,9 @@ so if set isJLoc=1, no need to compile velest program
 ### 1.2 set paths, parameters and other things
 
 #### 1.2.1 edit setPath.m :
-workDir: the main folder's path where you place jPicker  
-dataDir: the path of the folder saving sac files  
-matDir:  the path of the folder saving the waveform data in .mat   
+**workDir**: the main folder's path where you place jPicker  
+**dataDir**: the path of the folder saving sac files  
+**matDir**:  the path of the folder saving the waveform data in .mat   
 we provide an option to save the main waveform data in .mat form. You can review it by loading this files. it also contains some other informations. 
 #### 1.2.2 edit setPara.m :
 you can see the meaning of these detailed parameters in this file and adjust it according to your need.
@@ -63,7 +63,7 @@ and the result will be saved in
 modelLocalMat=[workDir,'/tool/mattaup/modelLocalasp.mat'];
 ```  
 #### 1.3.3 genTaupNet: 
-to pre-calcultate 1-D travel time according to aspModelFile and save the result to accelerate travel time calculation. (0.005° 1km)'s result would help us to interp travel time. it would cost a little longer time. if you don't change the velocity structure in aspModelFile, you need not to run this every time  
+to pre-calcultate 1-D travel time according to aspModelFile and save the result to accelerate travel time calculation. (0.005° 1km)'s result would help us to interp travel time. it would cost a little longer time at the beginning. if you don't change the velocity structure in aspModelFile, you need not to run this every time  
 #### 1.3.4 genTimeLstMat:
 we would divide the area into some subareas and we need to calculate the travel time range (P/S) for quakes in each subareas to each station. this script would do this and save the result in mat format
 #### 1.3.5 loadFile:   

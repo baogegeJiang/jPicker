@@ -18,7 +18,7 @@ continue;
 end
 for i=1:length(quake)
    
-    if sum(sign(quake(i).pTime))<5;continue;end
+    if sum(sign(quake(i).pTime))<3;continue;end
     for j=1:length(quake(i).pTime)
         clf
         figure(1); hold on

@@ -30,5 +30,6 @@ for i=1:paraNum
 %    cd(workDir);
 end
 end
+genTimeLstMat;
 setPath
 loadFile;

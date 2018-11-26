@@ -80,7 +80,7 @@ try
     if  length(find(sta.data(pIndex+[-6:-1],:)==0))>1;pTime=0;sTime=0;return;end
     pA=max(max(sta.data(pIndex+[-200:200],:)));
     pATmp=max(max(sta.data(pIndex+[-200:250],:)));
-    if isStrict==1 && max(max(sta.data(mod(pIndex+[-1000:-250]-1,length(sta.data))+1,:)))*2.5>pATmp;pTime=0;sTime=0;return;end
+    if isStrict==1 && max(max(sta.data(mod(pIndex+[-1500:-250]-1,length(sta.data))+1,:)))*2.5>pATmp;pTime=0;sTime=0;return;end
     if toDoLst(1)==3 && max(max(sta.data(mod(pIndex+[-1000:-250]-1,length(sta.data))+1,:)))*2.5>pATmp&&abs(pIndex-pIndexO)>50;pTime=0;sTime=0;return;end
     
     %% SVM pick S
