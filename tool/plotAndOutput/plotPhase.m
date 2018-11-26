@@ -53,6 +53,7 @@ for i=1:length(quake)
         title(sprintf('day:%d quake:%d sta: %s',tmpDay,i,staLst(j).name));
         fprintf('day:%d quake:%d sta: %s\n',tmpDay,i,staLst(j).name);
         figName=sprintf('%dquake%d_%s.jpg',tmpDay,i,staLst(j).name);
+        box on
         print(gcf,[figureDir,figName],'-djpeg','-r300');
     end
 end

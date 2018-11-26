@@ -43,7 +43,7 @@ dd1=0.1;dd2=0.01;dd3=0.01;
 % nR: the subarea's latitude range= (maxLatitude-minLatitude)/(nR-1)
 % mR: the subarea's longitude range= (maxLongitude-minLongitude)/(nR-1)
 % the total number of subareas: nR*mR
-R=[55,65,-152,-138];nR=15;mR=15;
+R=[53,68,-155,-135];nR=15;mR=15;
 % dTimeE for travel time calculate error (in associating different stations' results) 
 % if the travel time is longer or shorter than the estimated range within dTimeE, 
 % it also be taken into consideration
