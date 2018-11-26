@@ -6,7 +6,7 @@ Email: *2320140745@qq.com*
 *a program to automaticlly detect earthquakes and determine the arrival times of its P S phases. it mainly based on supoort vector machine and can be applied on array data.*  
 
 **Emphasize**: our method are designed for 50HZ sac files. You may have to convert the format to sac and resample to 50 Hz or we would do resample automatically in our program. the whole program is mainly designed to process the full-day record and we also provide a function to picking phase on a short record for specific events.   
-<img src="https://github.com/baogegeJiang/jPicker/blob/master/output/figure/737242quake2_F1TN.jpg"  height="330" width="495">
+<img src="https://github.com/baogegeJiang/jPicker/blob/master/output/figure/737242quake1_F1TN.jpg"  height="330" width="495">
 
 ## 1 install step:
 
