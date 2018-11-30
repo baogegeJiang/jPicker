@@ -113,7 +113,7 @@ for loop=1:200
     if loop>10 && mod(loop,2)==1
         
         depR=depG'*dTime/(depG'*depG+0.000001);
-        dep1=min(90,max(1,dep+10*(rand-0.5+sign(depR)*0.4)));
+        dep1=min(190,max(1,dep+10*(rand-0.5+sign(depR)*0.4)));
         [time1,G]=taupnetL(1,[La+staLa*0;Lo+staLa*0;dep1+staLa*0;staLa;staLo;],phaseL);
         time1=time1+oTime;
         

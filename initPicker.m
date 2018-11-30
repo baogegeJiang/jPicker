@@ -3,8 +3,8 @@ setPath;
 addpath(genpath(workDir));
 loadSta;
 staVel;
-%load  machineIsPhaseHimaV3
-load machineIsPhaseSCV5
+load  machineIsPhaseHimaV3
+%load machineIsPhaseSCV5
 load machineIsP
 %machineIsPhase.x=single(machineIsPhase.x);
 %machineIsPhase.a=single(machineIsPhase.a);
@@ -14,14 +14,14 @@ load machineIsP
 %machineIsP.x=single(machineIsP.x);
 if isJLoc==0
 velDir=[workDir,'tool/tmpVEL/'];
-if exist(velDir,'file');
+if exist(velDir,'file')
    rmpath(genpath(velDir));
    rmdir(velDir,'s');
 end
 mkdir(velDir);
 for i=1:paraNum
     velDirTmp=[velDir,'VELSVM',num2str(i)];
-    if exist(velDirTmp,'file');
+    if exist(velDirTmp,'file')
        rmdir(velDirTmp);
     end
     unix(sprintf('cp -r %s %s',velDir0,velDirTmp));

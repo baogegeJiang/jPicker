@@ -1,8 +1,14 @@
 % we provide the paralle way; paraNum is the number of threads. if it's setted to 1, we will not do paralle calculation
-paraNum=1;
+% paraMod: 1 -> we would  parallelly calculate several days which would
+%cost more memory; 2 -> we would  parallelly calculate severalstation's
+%date in a day which need less memory than mod 1.
+%in general, mod 1 will be faster
+paraNum=12;paraMod=2;
 % when mexSLR ==1, we will calculate SLR in 'C'; when mexSLR==0, we will not;
 mexSLR=0;
 minSLR=3;
+% we develop a fast way to calculate svm value which would ignore SLR trigger.
+pickAll=1;
 % set the scnday list. 
 % refDay: not important parameter; set any day ealier than sDay is ok;
 % sDay: the first day's number;
@@ -25,9 +31,9 @@ reDet=0;
 % saving the main waveform data in .mat form in the matDir
 saveSta=1;
 % fastCal=1: do calculation in a fast way; fastCal=0: not in a fast way
-% fastCalNum=1~25, the bigger the faster.
+% fastCalNum=1~75, the bigger the faster.
 fastCal=1;
-fastCalNum=25;
+fastCalNum=75;
 % reScan=1,2,3...: we will rescan the wavoform record several times to find if there is any missed quakes; reScan=0: not rescan
 % 4 is already enough if there are not many earthquakes
 reScan=4;
@@ -48,4 +54,6 @@ R=[53,68,-155,-135];nR=15;mR=15;
 % if the travel time is longer or shorter than the estimated range within dTimeE, 
 % it also be taken into consideration
 dTimeE=2;
+%mexConX=1;
+
 

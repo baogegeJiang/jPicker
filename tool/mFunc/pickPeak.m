@@ -5,6 +5,10 @@ A=0;
 sacPreCount=min(20000,ceil(size(data,1)/2));
 minD=30;minSLR=3;minSVMd=0;minSVMP1=0;minSVMP2=0;
 setPara;
+if pickAll==1
+    [peak,xd,A,slrZ,pre]=pickPeakAll(data,modPhase,pre);
+    return;
+end
 jL=-200:200;
 jL2=-1000:2500;
 svmL=[0];
@@ -19,23 +23,23 @@ slrDataN=SLR(data(:,2));
 slrDataZ=SLR(data(:,3));
 slrData=max([slrDataE;slrDataN;slrDataZ]);
 slrZ=slrData(sacPreCount+[1:length(data0)]);
-if length(pre)==0
+if isempty(pre)
 pre=(slrData*0-99999)';
 else
 pre=[(zeros(sacPreCount,1)-99999);pre;(zeros(sacPreCount+1,1)-99999)];
 end
-[slrPeak,slrLst]=getdetec2(slrData([1:dataLength]+sacPreCount),minSLR,30);
+[~,slrLst]=getdetec2(slrData([1:dataLength]+sacPreCount),minSLR,30);
 
 for i=1:length(slrLst)
 
     pIndex=slrLst(i)+sacPreCount;
     vectorLst=find(pre(pIndex+jL)==-99999)+pIndex+jL(1)-1;    
-    if length(vectorLst)>0
+    if ~isempty(vectorLst)
         [xt]=conX(vectorLst,data);
-        [isPhase,m]=preT(xt,modPhase);
+        [isPhase,~]=preT(xt,modPhase);
         pre(vectorLst,1)=isPhase;
     end
-    [jValue,jLst]=getdetec(pre(pIndex+jL),minSVMd,minD);
+    [~,jLst]=getdetec(pre(pIndex+jL),minSVMd,minD);
 
     isPfind=0;
     if jLst(1)<=0; continue;end 
@@ -47,14 +51,14 @@ for i=1:length(slrLst)
     end 
     if isPfind==0;continue;end
     vectorLst=find(pre(pIndex+jL2)==-99999)+pIndex+jL2(1)-1;
-    if length(vectorLst)>0
+    if ~isempty(vectorLst)
         [xt]=conX(vectorLst,data);
-        [isPhase,m]=preT(xt,modPhase);
+        [isPhase,~]=preT(xt,modPhase);
         pre(vectorLst,1)=isPhase;
     end
 end
-[jValue,jLst]=getdetec(pre(1+sacPreCount:end-sacPreCount-1),minSVMd,minD);
-peak=[jLst-1+1+sacPreCount];peakCount=length(jLst);
+[~,jLst]=getdetec(pre(1+sacPreCount:end-sacPreCount-1),minSVMd,minD);
+peak=[jLst-1+1+sacPreCount];%peakCount=length(jLst);
 xd=conXD(peak,data);
 for i=1:length(peak)
     sIndex=max(peak(i)-50,1);eIndex=min(peak(i)+500,length(data));

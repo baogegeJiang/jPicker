@@ -2,7 +2,7 @@
 setPath;
 setPara;
 figureDir=[workDir,'output/quakeFigure/'];
-if exist(figureDir,'file');
+if exist(figureDir,'file')
 %   rmdir(figureDir,'s');
 end
 %mkdir(figureDir);

@@ -117,4 +117,4 @@ the waveform data is a N*3 mat which contains three components(E/N/Z).
 the function will return the index of P/S phase's arrival time. if the indexes equal to **0**, it means **no** phase of such type found.
 
 ## example
-we give a example with sac download form iris (2018.7.1) in *tmpSeed*. you can just edit *setPath.m* to adjust the path and then run *pickAIV2* to do all the picking.  
+we give a example with sac download form iris (2018.7.1) in *tmpSeed*. you can just edit *setPath.m* to adjust the path and then run **pickAIV2** to do all the picking.  
